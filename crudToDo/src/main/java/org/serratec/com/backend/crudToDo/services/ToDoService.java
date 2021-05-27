@@ -8,43 +8,56 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class ToDoService {
-	List<ToDoEntity> Lista = new ArrayList<>();
-	
-	public void create(ToDoEntity toDo) {
-		Lista.add(toDo);
+	List<ToDoEntity> lista = new ArrayList<>();
+
+	public ToDoEntity create(ToDoEntity toDo) {
+		if(this.getByID(toDo.getId()) == null) {
+			lista.add(toDo);
+			return toDo;
+		}
+		
+		return null;
 	}
-	
+
 	public List<ToDoEntity> readAll() {
-		return Lista;
+		return lista;
 	}
-	
+
 	public ToDoEntity readId(Integer id) {
-		for (ToDoEntity toDoEntity : Lista) {
-			if(id == toDoEntity.getId()) {
+		if(this.getByID(id) != null) {
+			return this.getByID(id);
+		}
+		
+		return null;
+	}
+
+	public ToDoEntity delete(Integer id) {
+		if(this.getByID(id) != null) {
+			lista.remove(this.getByID(id));
+			return this.getByID(id);
+		}
+		
+		return null;
+	}
+
+	public List<ToDoEntity> update(ToDoEntity toDo, Integer id) {
+
+		ToDoEntity updateToDo = this.getByID(id);
+		if (updateToDo != null) {
+			updateToDo.setNome(toDo.getNome());
+			updateToDo.setDescricao(toDo.getDescricao());
+			lista.set(lista.indexOf(updateToDo), updateToDo);
+		}
+		return this.readAll();
+	}
+
+	public ToDoEntity getByID(Integer id) {
+		for (ToDoEntity toDoEntity : lista) {
+			if (id == toDoEntity.getId()) {
 				return toDoEntity;
 			}
 		}
 		return null;
 	}
-	
-	public void delete(Integer id) {
-		for (ToDoEntity toDoEntity : Lista) {
-			if(id == toDoEntity.getId()) {
-				Lista.remove(toDoEntity);
-				break;
-			}
-		}
-	}
-	
-	public void update(ToDoEntity toDo, Integer id) {
-		for (ToDoEntity toDoEntity : Lista) {
-			if(id == toDoEntity.getId()) {
-				toDoEntity.setId(toDo.getId());
-				toDoEntity.setNome(toDo.getNome());
-				toDoEntity.setDescricao(toDo.getDescricao());
-				break;
-			}
-		}
-	}
-	
+
 }

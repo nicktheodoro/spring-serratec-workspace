@@ -4,7 +4,7 @@ public class ToDoEntity {
 	private Integer id;
 	private String nome;
 	private String descricao;
-	
+
 	public ToDoEntity(Integer id, String nome, String descricao) {
 		super();
 		this.id = id;
@@ -35,5 +35,5 @@ public class ToDoEntity {
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
 	}
-	
+
 }

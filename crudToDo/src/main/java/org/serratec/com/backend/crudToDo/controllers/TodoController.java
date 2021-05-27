@@ -5,6 +5,8 @@ import java.util.List;
 import org.serratec.com.backend.crudToDo.models.ToDoEntity;
 import org.serratec.com.backend.crudToDo.services.ToDoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,28 +23,29 @@ public class TodoController {
 	@Autowired
 	ToDoService service;
 	
+
 	@PostMapping
-	public void create(@RequestBody ToDoEntity toDo) {
-		service.create(toDo);
+	public ResponseEntity<ToDoEntity> create(@RequestBody ToDoEntity toDo) {
+		return  new ResponseEntity<ToDoEntity>(service.create(toDo), HttpStatus.CREATED);
 	}
 	
 	@GetMapping
-	public List<ToDoEntity> realAll() {
-		return service.readAll();
+	public ResponseEntity<List<ToDoEntity>> realAll() {
+		return new ResponseEntity<List<ToDoEntity>>(service.readAll(), HttpStatus.OK);
 	}
 	
 	@GetMapping("/{id}")
-	public ToDoEntity readId(@PathVariable Integer id) {
-		return service.readId(id);
+	public ResponseEntity<ToDoEntity> readId(@PathVariable Integer id) {
+		return new ResponseEntity<ToDoEntity>(service.readId(id), HttpStatus.OK);
 	}
 	
 	@DeleteMapping("/{id}")
-	public void delete(@PathVariable Integer id) {
-		service.delete(id);
+	public ResponseEntity<ToDoEntity> delete(@PathVariable Integer id) {
+		return new ResponseEntity<ToDoEntity>(service.delete(id), HttpStatus.NO_CONTENT);
 	}
 	
 	@PutMapping("/{id}")
-	public void update(@RequestBody ToDoEntity toDo, @PathVariable Integer id) {
-		service.update(toDo, id);
+	public ResponseEntity<List<ToDoEntity>> update(@RequestBody ToDoEntity toDo, @PathVariable Integer id) {
+		return new ResponseEntity<List<ToDoEntity>>(service.update(toDo, id), HttpStatus.ACCEPTED);
 	}
 }
