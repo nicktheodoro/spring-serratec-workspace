@@ -1,9 +1,13 @@
 package org.serratec.com.backend.calculadora.controllers;
 
+import java.util.List;
+
 import org.serratec.com.backend.calculadora.models.CalculadoraEntity;
 import org.serratec.com.backend.calculadora.services.CalculadoraService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,24 +19,24 @@ public class CalculadoraControllers {
 	 	@Autowired
 	    CalculadoraService service;
 	 	
-	    @GetMapping("/somar")
+	    @PostMapping("/result")
 		public double somar(@RequestBody CalculadoraEntity calculator) {
-			return service.somar(calculator);
+			return service.calcular(calculator);
 		}
 	    
-	    @GetMapping("/subtrair")
-		public double subtrair(@RequestBody CalculadoraEntity calculator) {
-			return service.subtrair(calculator);
-		}
+	    @PostMapping("/create")
+	    public void create(@RequestBody CalculadoraEntity calculator) {
+	    	service.create(calculator);
+	    }
 	    
-	    @GetMapping("/multiplicar")
-		public double multiplicar(@RequestBody CalculadoraEntity calculator) {
-			return service.multiplicar(calculator);
-		}
+	    @GetMapping("/all")
+	    public List<CalculadoraEntity> getAll() {
+	    	return service.getAll();
+	    }
 	    
-	    @GetMapping("/dividir")
-		public double dividir(@RequestBody CalculadoraEntity calculator) {
-			return service.dividir(calculator);
-		}
+	    @GetMapping("/search/{number1}")
+	    public CalculadoraEntity search(@PathVariable double number1 ) {
+	    	return service.search(number1);
+	    }
 	
 }

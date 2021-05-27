@@ -3,6 +3,7 @@ package org.serratec.com.backend.calculadora.models;
 public class CalculadoraEntity {
 	private double num1;
 	private double num2;
+	private String opr;
 
 	public CalculadoraEntity(double num1, double num2) {
 		super();
@@ -24,6 +25,14 @@ public class CalculadoraEntity {
 
 	public void setNum2(double num2) {
 		this.num2 = num2;
+	}
+
+	public String getOpr() {
+		return opr;
+	}
+
+	public void setOpr(String opr) {
+		this.opr = opr;
 	}
 	
 }
