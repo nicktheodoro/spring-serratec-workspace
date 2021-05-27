@@ -11,11 +11,11 @@ public class ToDoService {
 	List<ToDoEntity> lista = new ArrayList<>();
 
 	public ToDoEntity create(ToDoEntity toDo) {
-		if(this.getByID(toDo.getId()) == null) {
+		if (this.getByID(toDo.getId()) == null) {
 			lista.add(toDo);
 			return toDo;
 		}
-		
+
 		return null;
 	}
 
@@ -24,19 +24,19 @@ public class ToDoService {
 	}
 
 	public ToDoEntity readId(Integer id) {
-		if(this.getByID(id) != null) {
+		if (this.getByID(id) != null) {
 			return this.getByID(id);
 		}
-		
+
 		return null;
 	}
 
 	public ToDoEntity delete(Integer id) {
-		if(this.getByID(id) != null) {
+		if (this.getByID(id) != null) {
 			lista.remove(this.getByID(id));
 			return this.getByID(id);
 		}
-		
+
 		return null;
 	}
 

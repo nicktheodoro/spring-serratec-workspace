@@ -19,31 +19,30 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/todo")
 public class TodoController {
-	
+
 	@Autowired
 	ToDoService service;
-	
 
 	@PostMapping
 	public ResponseEntity<ToDoEntity> create(@RequestBody ToDoEntity toDo) {
-		return  new ResponseEntity<ToDoEntity>(service.create(toDo), HttpStatus.CREATED);
+		return new ResponseEntity<ToDoEntity>(service.create(toDo), HttpStatus.CREATED);
 	}
-	
+
 	@GetMapping
 	public ResponseEntity<List<ToDoEntity>> realAll() {
 		return new ResponseEntity<List<ToDoEntity>>(service.readAll(), HttpStatus.OK);
 	}
-	
+
 	@GetMapping("/{id}")
 	public ResponseEntity<ToDoEntity> readId(@PathVariable Integer id) {
 		return new ResponseEntity<ToDoEntity>(service.readId(id), HttpStatus.OK);
 	}
-	
+
 	@DeleteMapping("/{id}")
 	public ResponseEntity<ToDoEntity> delete(@PathVariable Integer id) {
 		return new ResponseEntity<ToDoEntity>(service.delete(id), HttpStatus.NO_CONTENT);
 	}
-	
+
 	@PutMapping("/{id}")
 	public ResponseEntity<List<ToDoEntity>> update(@RequestBody ToDoEntity toDo, @PathVariable Integer id) {
 		return new ResponseEntity<List<ToDoEntity>>(service.update(toDo, id), HttpStatus.ACCEPTED);
