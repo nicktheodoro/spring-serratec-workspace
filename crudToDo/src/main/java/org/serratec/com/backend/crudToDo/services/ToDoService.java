@@ -3,6 +3,7 @@ package org.serratec.com.backend.crudToDo.services;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.serratec.com.backend.crudToDo.execeptions.ToDoNotFoundException;
 import org.serratec.com.backend.crudToDo.models.ToDoEntity;
 import org.springframework.stereotype.Service;
 
@@ -23,32 +24,39 @@ public class ToDoService {
 		return lista;
 	}
 
-	public ToDoEntity readId(Integer id) {
+	public ToDoEntity readId(Integer id) throws ToDoNotFoundException {
 		if (this.getByID(id) != null) {
 			return this.getByID(id);
 		}
 
-		return null;
+		throw new ToDoNotFoundException("Não foi possível encontrar esse id" + id);
 	}
 
-	public ToDoEntity delete(Integer id) {
+	public String delete(Integer id) throws ToDoNotFoundException {
 		if (this.getByID(id) != null) {
 			lista.remove(this.getByID(id));
-			return this.getByID(id);
+			return "Deletado com sucesso";
 		}
 
-		return null;
+		throw new ToDoNotFoundException("Não foi possível encontrar esse id" + id);
 	}
 
-	public List<ToDoEntity> update(ToDoEntity toDo, Integer id) {
-
+	public ToDoEntity update(ToDoEntity toDo, Integer id) throws ToDoNotFoundException {
 		ToDoEntity updateToDo = this.getByID(id);
+
 		if (updateToDo != null) {
-			updateToDo.setNome(toDo.getNome());
-			updateToDo.setDescricao(toDo.getDescricao());
+			if (toDo.getNome() != null) {
+				updateToDo.setNome(toDo.getNome());
+			}
+			if (toDo.getDescricao() != null) {
+				updateToDo.setDescricao(toDo.getDescricao());
+			}
+
 			lista.set(lista.indexOf(updateToDo), updateToDo);
+			return updateToDo;
 		}
-		return this.readAll();
+
+		throw new ToDoNotFoundException("Não foi possível encontrar esse id" + id);
 	}
 
 	public ToDoEntity getByID(Integer id) {
@@ -57,6 +65,7 @@ public class ToDoService {
 				return toDoEntity;
 			}
 		}
+
 		return null;
 	}
 

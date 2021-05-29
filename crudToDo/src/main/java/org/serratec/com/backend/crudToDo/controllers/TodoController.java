@@ -2,6 +2,7 @@ package org.serratec.com.backend.crudToDo.controllers;
 
 import java.util.List;
 
+import org.serratec.com.backend.crudToDo.execeptions.ToDoNotFoundException;
 import org.serratec.com.backend.crudToDo.models.ToDoEntity;
 import org.serratec.com.backend.crudToDo.services.ToDoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,17 +35,18 @@ public class TodoController {
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<ToDoEntity> readId(@PathVariable Integer id) {
+	public ResponseEntity<ToDoEntity> readId(@PathVariable Integer id) throws ToDoNotFoundException {
 		return new ResponseEntity<ToDoEntity>(service.readId(id), HttpStatus.OK);
 	}
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity<ToDoEntity> delete(@PathVariable Integer id) {
-		return new ResponseEntity<ToDoEntity>(service.delete(id), HttpStatus.NO_CONTENT);
+	public ResponseEntity<String> delete(@PathVariable Integer id) throws ToDoNotFoundException {
+		return new ResponseEntity<String>(service.delete(id), HttpStatus.OK);
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<List<ToDoEntity>> update(@RequestBody ToDoEntity toDo, @PathVariable Integer id) {
-		return new ResponseEntity<List<ToDoEntity>>(service.update(toDo, id), HttpStatus.ACCEPTED);
+	public ResponseEntity<ToDoEntity> update(@RequestBody ToDoEntity toDo, @PathVariable Integer id)
+			throws ToDoNotFoundException {
+		return new ResponseEntity<ToDoEntity>(service.update(toDo, id), HttpStatus.ACCEPTED);
 	}
 }

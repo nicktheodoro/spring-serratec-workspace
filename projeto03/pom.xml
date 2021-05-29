@@ -10,10 +10,10 @@
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>org.serratec.com.backend</groupId>
-	<artifactId>crudToDo</artifactId>
+	<artifactId>projeto03</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>crudToDo</name>
-	<description>Criação de um crud ToDo durante as aulas de Spring Boot</description>
+	<name>projeto03</name>
+	<description>Crud simulando aplicação bancária</description>
 	<properties>
 		<java.version>11</java.version>
 	</properties>
@@ -33,7 +33,6 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
 		</dependency>
-
 	</dependencies>
 
 	<build>
