@@ -3,7 +3,7 @@ package org.serratec.com.backend.projeto03.models;
 public class OperacaoEntity {
 	private Tipo tipo;
 	private Double valor;
-	
+
 	public OperacaoEntity(Tipo tipo, Double valor) {
 		super();
 		this.tipo = tipo;
@@ -25,5 +25,5 @@ public class OperacaoEntity {
 	public void setValor(Double valor) {
 		this.valor = valor;
 	}
-	
+
 }

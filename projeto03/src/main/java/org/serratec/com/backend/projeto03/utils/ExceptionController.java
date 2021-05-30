@@ -10,25 +10,19 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class ExceptionController {
 
-		@ExceptionHandler(ContaNotFound.class)
-		public ResponseEntity<String> tratarNotFound(ContaNotFound exception) {
-			return ResponseEntity.notFound()
-									.header("x-error-msg", exception.getMessage())
-									.build();
-		}
-		
-		@ExceptionHandler(RepeatId.class)
-		public ResponseEntity<String> tratarRepeatId(RepeatId exception) {
-			return ResponseEntity.badRequest()
-									.header("x-error-msg", exception.getMessage())
-									.build();
-		}
-		
-		@ExceptionHandler(SaldoInsuficiente.class)
-		public ResponseEntity<String> tratarSaldoInsuficiente(SaldoInsuficiente exception) {
-			return ResponseEntity.badRequest()
-										.header("x-error-msg", exception.getMessage())
-										.build();
-		}
-		
+	@ExceptionHandler(ContaNotFound.class)
+	public ResponseEntity<String> tratarNotFound(ContaNotFound exception) {
+		return ResponseEntity.notFound().header("x-error-msg", exception.getMessage()).build();
+	}
+
+	@ExceptionHandler(RepeatId.class)
+	public ResponseEntity<String> tratarRepeatId(RepeatId exception) {
+		return ResponseEntity.badRequest().header("x-error-msg", exception.getMessage()).build();
+	}
+
+	@ExceptionHandler(SaldoInsuficiente.class)
+	public ResponseEntity<String> tratarSaldoInsuficiente(SaldoInsuficiente exception) {
+		return ResponseEntity.badRequest().header("x-error-msg", exception.getMessage()).build();
+	}
+
 }

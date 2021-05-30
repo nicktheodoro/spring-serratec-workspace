@@ -28,9 +28,9 @@ public class API {
 	}
 
 	public ContaEntity create(ContaEntity conta) throws RepeatId {
-		
+
 		for (ContaEntity contaEntity : contas) {
-			if(conta.getId() == contaEntity.getId()) {
+			if (conta.getId() == contaEntity.getId()) {
 				throw new RepeatId("Id já existente, operação inválida.");
 			}
 		}
@@ -88,19 +88,21 @@ public class API {
 				c.setSaldo(c.getSaldo() - operacao.getValor());
 				return operacao;
 			}
-			
+
 			throw new SaldoInsuficiente("Impossível realizar o saque, saldo insuficiente!");
-			
+
 		case CREDITO:
 			c.setSaldo(c.getSaldo() - operacao.getValor());
 			return operacao;
-			
+
 		case DEPOSITO:
 			c.setSaldo(c.getSaldo() + operacao.getValor());
 			return operacao;
-			
+
 		default:
 			return null;
 		}
+	
 	}
+	
 }
