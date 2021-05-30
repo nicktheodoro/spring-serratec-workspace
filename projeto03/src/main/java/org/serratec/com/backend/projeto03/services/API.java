@@ -28,8 +28,11 @@ public class API {
 	}
 
 	public ContaEntity create(ContaEntity conta) throws RepeatId {
-		if (contas.contains(conta)) {
-			throw new RepeatId("Id repetido, por favor insira um válido");
+		
+		for (ContaEntity contaEntity : contas) {
+			if(conta.getId() == contaEntity.getId()) {
+				throw new RepeatId("Id já existente, operação inválida.");
+			}
 		}
 
 		contas.add(conta);
