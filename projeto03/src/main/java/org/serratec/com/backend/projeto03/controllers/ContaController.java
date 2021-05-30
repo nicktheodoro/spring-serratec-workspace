@@ -49,7 +49,7 @@ public class ContaController {
 
 	@DeleteMapping("/{id}")
 	public ResponseEntity<String> delete(@PathVariable Integer id) throws ContaNotFound {
-		return new ResponseEntity<String>(api.delete(id), HttpStatus.NO_CONTENT);
+		return new ResponseEntity<String>(api.delete(id), HttpStatus.ACCEPTED);
 	}
 
 	@PostMapping("/{id}")
