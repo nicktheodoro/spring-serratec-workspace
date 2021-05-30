@@ -4,7 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.serratec.com.backend.projeto03.exceptions.ContaNotFound;
+import org.serratec.com.backend.projeto03.exceptions.RepeatId;
+import org.serratec.com.backend.projeto03.exceptions.SaldoInsuficiente;
 import org.serratec.com.backend.projeto03.models.ContaEntity;
+import org.serratec.com.backend.projeto03.models.OperacaoEntity;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -17,17 +20,21 @@ public class API {
 	}
 
 	public ContaEntity getConta(Integer id) throws ContaNotFound {
-		return this.getById(id);
+		if (this.getById(id) != null) {
+			return this.getById(id);
+		}
+
+		throw new ContaNotFound("Id não encontrado");
 	}
 
-	public ContaEntity create(ContaEntity conta) throws ContaNotFound {
-		if(contas.contains(conta)) {
-			return null;
+	public ContaEntity create(ContaEntity conta) throws RepeatId {
+		if (contas.contains(conta)) {
+			throw new RepeatId("Id repetido, por favor insira um válido");
 		}
 
 		contas.add(conta);
 		return conta;
-		
+
 	}
 
 	public ContaEntity update(Integer id, ContaEntity conta) throws ContaNotFound {
@@ -49,12 +56,12 @@ public class API {
 	}
 
 	public String delete(Integer id) throws ContaNotFound {
-		
-		if(this.getById(id) != null) {
+
+		if (this.getById(id) != null) {
 			contas.remove(this.getById(id));
 			return "Conta deletada com sucesso";
 		}
-		
+
 		throw new ContaNotFound("Id não encontrado");
 	}
 
@@ -66,5 +73,31 @@ public class API {
 		}
 
 		throw new ContaNotFound("Id não encontrado");
+	}
+
+	public OperacaoEntity operacao(Integer id, OperacaoEntity operacao) throws ContaNotFound, SaldoInsuficiente {
+
+		ContaEntity c = this.getById(id);
+
+		switch (operacao.getTipo()) {
+		case DEBITO:
+			if (operacao.getValor() <= c.getSaldo()) {
+				c.setSaldo(c.getSaldo() - operacao.getValor());
+				return operacao;
+			}
+			
+			throw new SaldoInsuficiente("Impossível realizar o saque, saldo insuficiente!");
+			
+		case CREDITO:
+			c.setSaldo(c.getSaldo() - operacao.getValor());
+			return operacao;
+			
+		case DEPOSITO:
+			c.setSaldo(c.getSaldo() + operacao.getValor());
+			return operacao;
+			
+		default:
+			return null;
+		}
 	}
 }

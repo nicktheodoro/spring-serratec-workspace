@@ -3,7 +3,10 @@ package org.serratec.com.backend.projeto03.controllers;
 import java.util.List;
 
 import org.serratec.com.backend.projeto03.exceptions.ContaNotFound;
+import org.serratec.com.backend.projeto03.exceptions.RepeatId;
+import org.serratec.com.backend.projeto03.exceptions.SaldoInsuficiente;
 import org.serratec.com.backend.projeto03.models.ContaEntity;
+import org.serratec.com.backend.projeto03.models.OperacaoEntity;
 import org.serratec.com.backend.projeto03.services.API;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -35,17 +38,23 @@ public class ContaController {
 	}
 
 	@PostMapping
-	public ResponseEntity<ContaEntity> create(@RequestBody ContaEntity conta) throws ContaNotFound {
-		return api.create(conta);
+	public ResponseEntity<ContaEntity> create(@RequestBody ContaEntity conta) throws RepeatId {
+		return new ResponseEntity<ContaEntity>(api.create(conta), HttpStatus.CREATED);
 	}
 
 	@PutMapping("/{id}")
 	public ContaEntity update(@PathVariable Integer id, @RequestBody ContaEntity conta) throws ContaNotFound {
 		return api.update(id, conta);
 	}
-	
+
 	@DeleteMapping("/{id}")
-	public String delete(@PathVariable Integer id) throws ContaNotFound {
-		return api.delete(id);
+	public ResponseEntity<String> delete(@PathVariable Integer id) throws ContaNotFound {
+		return new ResponseEntity<String>(api.delete(id), HttpStatus.NO_CONTENT);
+	}
+
+	@PostMapping("/{id}")
+	public OperacaoEntity operacao(@PathVariable Integer id, @RequestBody OperacaoEntity operacao)
+			throws ContaNotFound, SaldoInsuficiente {
+		return api.operacao(id, operacao);
 	}
 }

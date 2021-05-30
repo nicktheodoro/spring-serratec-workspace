@@ -1,32 +1,32 @@
 package org.serratec.com.backend.projeto03.exceptions;
 
-public class ContaNotFound extends Exception {
+public class SaldoInsuficiente extends Exception {
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 7041036303286316887L;
 
-	public ContaNotFound() {
+	public SaldoInsuficiente() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public ContaNotFound(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+	public SaldoInsuficiente(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
 		super(message, cause, enableSuppression, writableStackTrace);
 		// TODO Auto-generated constructor stub
 	}
 
-	public ContaNotFound(String message, Throwable cause) {
+	public SaldoInsuficiente(String message, Throwable cause) {
 		super(message, cause);
 		// TODO Auto-generated constructor stub
 	}
 
-	public ContaNotFound(String message) {
+	public SaldoInsuficiente(String message) {
 		super(message);
 		// TODO Auto-generated constructor stub
 	}
 
-	public ContaNotFound(Throwable cause) {
+	public SaldoInsuficiente(Throwable cause) {
 		super(cause);
 		// TODO Auto-generated constructor stub
 	}
-	
+
 }
