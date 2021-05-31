@@ -4,7 +4,7 @@ public class ContaEntity {
 	private Integer id;
 	private String numero;
 	private String titular;
-	private Double saldo;
+	private Double saldo = 0D;
 
 	public ContaEntity(Integer id, String numero, String titular, Double saldo) {
 		super();
