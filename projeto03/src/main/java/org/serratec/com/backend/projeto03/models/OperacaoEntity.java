@@ -1,6 +1,7 @@
 package org.serratec.com.backend.projeto03.models;
 
 public class OperacaoEntity {
+	
 	private Tipo tipo;
 	private Double valor;
 
