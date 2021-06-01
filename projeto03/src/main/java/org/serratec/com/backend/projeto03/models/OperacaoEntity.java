@@ -14,6 +14,9 @@ public class OperacaoEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	
+	@Column(name="ID_CONTA")
+	private Long idConta;
 
 	@Column(name="TIPO_OPR", nullable = false)
 	private Tipo tipo;
@@ -27,6 +30,14 @@ public class OperacaoEntity {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public Long getIdConta() {
+		return idConta;
+	}
+
+	public void setIdConta(Long idConta) {
+		this.idConta = idConta;
 	}
 
 	public Tipo getTipo() {

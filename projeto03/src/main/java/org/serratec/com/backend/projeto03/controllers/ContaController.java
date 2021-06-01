@@ -32,7 +32,8 @@ public class ContaController {
 	}
 
 	@GetMapping("/{agencia}/{numero}")
-	public ResponseEntity<ContaEntity> getConta(@PathVariable String agencia, @PathVariable String numero) throws ContaNotFound {
+	public ResponseEntity<ContaEntity> getConta(@PathVariable String agencia, @PathVariable String numero)
+			throws ContaNotFound {
 		return new ResponseEntity<ContaEntity>(service.getOne(agencia, numero), HttpStatus.OK);
 	}
 
@@ -42,19 +43,26 @@ public class ContaController {
 	}
 
 	@PutMapping("/{agencia}/{numero}")
-	public ContaEntity update(@PathVariable String agencia, @PathVariable String numero,
-			@RequestBody ContaEntity conta) throws ContaNotFound {
+	public ContaEntity update(@PathVariable String agencia, @PathVariable String numero, @RequestBody ContaEntity conta)
+			throws ContaNotFound {
 		return service.update(agencia, numero, conta);
 	}
 
 	@DeleteMapping("/{agencia}/{numero}")
-	public ResponseEntity<String> delete(@PathVariable String agencia, @PathVariable String numero) throws ContaNotFound {
+	public ResponseEntity<String> delete(@PathVariable String agencia, @PathVariable String numero)
+			throws ContaNotFound {
 		return new ResponseEntity<String>(service.delete(agencia, numero), HttpStatus.ACCEPTED);
 	}
-	
+
+	@GetMapping("/{agencia}/{numero}/extrato")
+	public ResponseEntity<List<OperacaoEntity>> extrato(@PathVariable String agencia, @PathVariable String numero)
+			throws ContaNotFound {
+		return new ResponseEntity<List<OperacaoEntity>>(service.extrato(agencia, numero), HttpStatus.OK);
+	}
+
 	@PostMapping("/{agencia}/{numero}/operacao")
-	public OperacaoEntity operacao(@PathVariable String agencia, @PathVariable String numero,
+	public ResponseEntity<OperacaoEntity> operacao(@PathVariable String agencia, @PathVariable String numero,
 			@RequestBody OperacaoEntity operacao) throws SaldoInsuficiente, ContaNotFound {
-		return service.operacao(agencia, numero, operacao);
+		return new ResponseEntity<OperacaoEntity>(service.operacao(agencia, numero, operacao), HttpStatus.ACCEPTED);
 	}
 }
