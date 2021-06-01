@@ -1,25 +1,46 @@
 package org.serratec.com.backend.projeto03.models;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="CONTA")
 public class ContaEntity {
-	private Integer id;
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long Id;
+	
+	@Column(name="AGENCIA", nullable = false, length = 4)
+	private String agencia;
+	
+	@Column(name="NUMERO", nullable = false, length = 9)
 	private String numero;
+	
+	@Column(name="TITULAR", nullable = false, length = 120)
 	private String titular;
+	
+	@Column(name="SALDO")
 	private Double saldo = 0D;
 
-	public ContaEntity(Integer id, String numero, String titular, Double saldo) {
-		super();
-		this.id = id;
-		this.numero = numero;
-		this.titular = titular;
-		this.saldo = saldo;
+	public Long getId() {
+		return Id;
 	}
 
-	public Integer getId() {
-		return id;
+	public void setId(Long id) {
+		Id = id;
 	}
 
-	public void setId(Integer id) {
-		this.id = id;
+	public String getAgencia() {
+		return agencia;
+	}
+
+	public void setAgencia(String agencia) {
+		this.agencia = agencia;
 	}
 
 	public String getNumero() {

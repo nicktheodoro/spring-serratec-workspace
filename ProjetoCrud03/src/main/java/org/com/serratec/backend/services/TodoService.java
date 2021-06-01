@@ -3,7 +3,7 @@ package org.com.serratec.backend.services;
 import java.util.List;
 
 import org.com.serratec.backend.entity.TodoEntity;
-import org.com.serratec.backend.repository.TodoRepository;
+import org.com.serratec.backend.repository.ContaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 public class TodoService {
 
 	@Autowired
-	TodoRepository repository;
+	ContaRepository repository;
 	
 	public List<TodoEntity> getAll() {
 		return repository.findAll();

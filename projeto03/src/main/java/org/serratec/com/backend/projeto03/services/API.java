@@ -1,91 +1,80 @@
 package org.serratec.com.backend.projeto03.services;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.serratec.com.backend.projeto03.exceptions.ContaNotFound;
-import org.serratec.com.backend.projeto03.exceptions.RepeatId;
 import org.serratec.com.backend.projeto03.exceptions.SaldoInsuficiente;
 import org.serratec.com.backend.projeto03.models.ContaEntity;
 import org.serratec.com.backend.projeto03.models.OperacaoEntity;
+import org.serratec.com.backend.projeto03.repositories.ContaRepository;
+import org.serratec.com.backend.projeto03.repositories.OperacaoRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class API {
 
-	List<ContaEntity> contas = new ArrayList<>();
+	@Autowired
+	ContaRepository repository;
+
+	@Autowired
+	OperacaoRepository oprRepository;
 
 	public List<ContaEntity> getAll() {
-		return this.contas;
+		return repository.findAll();
 	}
 
-	public ContaEntity getConta(Integer id) throws ContaNotFound {
-		if (this.getById(id) != null) {
-			return this.getById(id);
-		}
+	public ContaEntity getOne(String agencia, String numero) throws ContaNotFound {
 
-		throw new ContaNotFound("Id não encontrado");
-	}
+		List<ContaEntity> lista = repository.findAll();
 
-	public ContaEntity create(ContaEntity conta) throws RepeatId {
-
-		for (ContaEntity contaEntity : contas) {
-			if (conta.getId() == contaEntity.getId()) {
-				throw new RepeatId("Id já existente, operação inválida.");
+		for (ContaEntity c : lista) {
+			if (agencia.equals(c.getAgencia()) && numero.equals(c.getNumero())) {
+				return repository.getById(c.getId());
 			}
 		}
 
-		contas.add(conta);
-		return conta;
-
+		throw new ContaNotFound("Conta não encontrada");
 	}
 
-	public ContaEntity update(Integer id, ContaEntity conta) throws ContaNotFound {
-		ContaEntity updateConta = this.getById(id);
+	public ContaEntity create(ContaEntity conta) {
+		return repository.save(conta);
+	}
 
-		if (updateConta != null) {
-			if (conta.getNumero() != null) {
-				updateConta.setNumero(conta.getNumero());
-			}
-			if (conta.getTitular() != null) {
-				updateConta.setTitular(conta.getTitular());
-			}
+	public ContaEntity update(String agencia, String numero, ContaEntity conta) throws ContaNotFound {
+		ContaEntity contaUpdate = this.getOne(agencia, numero);
 
-			contas.set(contas.indexOf(updateConta), updateConta);
-			return updateConta;
+		if (conta.getAgencia() != null) {
+			contaUpdate.setAgencia(conta.getAgencia());
 		}
 
-		throw new ContaNotFound("Id não encontrado");
-	}
-
-	public String delete(Integer id) throws ContaNotFound {
-
-		if (this.getById(id) != null) {
-			contas.remove(this.getById(id));
-			return "Conta deletada com sucesso";
+		if (conta.getNumero() != null) {
 		}
 
-		throw new ContaNotFound("Id não encontrado");
-	}
-
-	public ContaEntity getById(Integer id) throws ContaNotFound {
-		for (ContaEntity contaEntity : contas) {
-			if (id == contaEntity.getId()) {
-				return contaEntity;
-			}
+		if (conta.getTitular() != null) {
+			contaUpdate.setTitular(conta.getTitular());
 		}
 
-		throw new ContaNotFound("Id não encontrado");
+		return repository.save(contaUpdate);
 	}
 
-	public OperacaoEntity operacao(Integer id, OperacaoEntity operacao) throws ContaNotFound, SaldoInsuficiente {
+	public String delete(String agencia, String numero) throws ContaNotFound {
 
-		ContaEntity c = this.getById(id);
+		repository.deleteById(this.getOne(agencia, numero).getId());
+
+		return "Conta deletada com sucesso";
+	}
+
+	public OperacaoEntity operacao(String agencia, String numero, OperacaoEntity operacao)
+			throws SaldoInsuficiente, ContaNotFound {
+
+		ContaEntity c = this.getOne(agencia, numero);
 
 		switch (operacao.getTipo()) {
 		case DEBITO:
 			if (operacao.getValor() <= c.getSaldo()) {
 				c.setSaldo(c.getSaldo() - operacao.getValor());
+				oprRepository.save(operacao);
 				return operacao;
 			}
 
@@ -93,16 +82,18 @@ public class API {
 
 		case CREDITO:
 			c.setSaldo(c.getSaldo() - operacao.getValor());
+			oprRepository.save(operacao);
 			return operacao;
 
 		case DEPOSITO:
 			c.setSaldo(c.getSaldo() + operacao.getValor());
+			oprRepository.save(operacao);
 			return operacao;
 
 		default:
 			return null;
 		}
-	
+
 	}
-	
+
 }

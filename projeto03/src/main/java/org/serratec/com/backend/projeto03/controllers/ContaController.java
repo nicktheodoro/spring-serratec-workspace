@@ -3,7 +3,6 @@ package org.serratec.com.backend.projeto03.controllers;
 import java.util.List;
 
 import org.serratec.com.backend.projeto03.exceptions.ContaNotFound;
-import org.serratec.com.backend.projeto03.exceptions.RepeatId;
 import org.serratec.com.backend.projeto03.exceptions.SaldoInsuficiente;
 import org.serratec.com.backend.projeto03.models.ContaEntity;
 import org.serratec.com.backend.projeto03.models.OperacaoEntity;
@@ -25,36 +24,37 @@ import org.springframework.web.bind.annotation.RestController;
 public class ContaController {
 
 	@Autowired
-	API api;
+	API service;
 
 	@GetMapping
 	public ResponseEntity<List<ContaEntity>> getAll() {
-		return new ResponseEntity<List<ContaEntity>>(api.getAll(), HttpStatus.OK);
+		return new ResponseEntity<List<ContaEntity>>(service.getAll(), HttpStatus.OK);
 	}
 
-	@GetMapping("/{id}")
-	public ResponseEntity<ContaEntity> getConta(@PathVariable Integer id) throws ContaNotFound {
-		return new ResponseEntity<ContaEntity>(api.getById(id), HttpStatus.OK);
+	@GetMapping("/{agencia}/{numero}")
+	public ResponseEntity<ContaEntity> getConta(@PathVariable String agencia, @PathVariable String numero) throws ContaNotFound {
+		return new ResponseEntity<ContaEntity>(service.getOne(agencia, numero), HttpStatus.OK);
 	}
 
 	@PostMapping
-	public ResponseEntity<ContaEntity> create(@RequestBody ContaEntity conta) throws RepeatId {
-		return new ResponseEntity<ContaEntity>(api.create(conta), HttpStatus.CREATED);
+	public ResponseEntity<ContaEntity> create(@RequestBody ContaEntity conta) {
+		return new ResponseEntity<ContaEntity>(service.create(conta), HttpStatus.CREATED);
 	}
 
-	@PutMapping("/{id}")
-	public ContaEntity update(@PathVariable Integer id, @RequestBody ContaEntity conta) throws ContaNotFound {
-		return api.update(id, conta);
+	@PutMapping("/{agencia}/{numero}")
+	public ContaEntity update(@PathVariable String agencia, @PathVariable String numero,
+			@RequestBody ContaEntity conta) throws ContaNotFound {
+		return service.update(agencia, numero, conta);
 	}
 
-	@DeleteMapping("/{id}")
-	public ResponseEntity<String> delete(@PathVariable Integer id) throws ContaNotFound {
-		return new ResponseEntity<String>(api.delete(id), HttpStatus.ACCEPTED);
+	@DeleteMapping("/{agencia}/{numero}")
+	public ResponseEntity<String> delete(@PathVariable String agencia, @PathVariable String numero) throws ContaNotFound {
+		return new ResponseEntity<String>(service.delete(agencia, numero), HttpStatus.ACCEPTED);
 	}
-
-	@PostMapping("/{id}")
-	public OperacaoEntity operacao(@PathVariable Integer id, @RequestBody OperacaoEntity operacao)
-			throws ContaNotFound, SaldoInsuficiente {
-		return api.operacao(id, operacao);
+	
+	@PostMapping("/{agencia}/{numero}/operacao")
+	public OperacaoEntity operacao(@PathVariable String agencia, @PathVariable String numero,
+			@RequestBody OperacaoEntity operacao) throws SaldoInsuficiente, ContaNotFound {
+		return service.operacao(agencia, numero, operacao);
 	}
 }
