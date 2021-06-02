@@ -11,7 +11,7 @@ public class BookMapper {
 		BookEntity entity = new BookEntity();
 		entity.setAuthor(dto.getAuthor());
 		entity.setTitle(dto.getTitle());
-		entity.setType(dto.getType());
+		entity.setCategory(dto.getCategory());
 		entity.setPublishedDate(dto.getPublishedDate());
 
 		return entity;
@@ -21,7 +21,7 @@ public class BookMapper {
 		BookDto dto = new BookDto();
 		dto.setAuthor(book.getAuthor());
 		dto.setTitle(book.getTitle());
-		dto.setType(book.getType());
+		dto.setCategory(book.getCategory());
 		dto.setPublishedDate(book.getPublishedDate());
 
 		return dto;

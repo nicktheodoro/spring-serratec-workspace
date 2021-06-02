@@ -6,8 +6,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-
-import org.serratec.com.backend.projeto05.enums.Gender;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class BookEntity {
@@ -16,9 +16,12 @@ public class BookEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long Id;
 	private String title;
-	private Gender type;
 	private String author;
 	private LocalDate publishedDate;
+	
+	@ManyToOne
+	@JoinColumn(name = "id_category", referencedColumnName = "id")
+	private CategoryEntity category;
 
 	public Long getId() {
 		return Id;
@@ -36,14 +39,6 @@ public class BookEntity {
 		this.title = title;
 	}
 
-	public Gender getType() {
-		return type;
-	}
-
-	public void setType(Gender type) {
-		this.type = type;
-	}
-
 	public String getAuthor() {
 		return author;
 	}
@@ -59,4 +54,13 @@ public class BookEntity {
 	public void setPublishedDate(LocalDate publishedDate) {
 		this.publishedDate = publishedDate;
 	}
+
+	public CategoryEntity getCategory() {
+		return category;
+	}
+
+	public void setCategory(CategoryEntity category) {
+		this.category = category;
+	}
+	
 }

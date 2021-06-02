@@ -6,7 +6,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 
-import org.serratec.com.backend.projeto05.enums.Gender;
+import org.serratec.com.backend.projeto05.models.CategoryEntity;
 
 public class BookDto {
 
@@ -15,7 +15,7 @@ public class BookDto {
 	private String title;
 
 	@NotNull
-	private Gender type;
+	private CategoryEntity category;
 
 	@NotNull
 	@Size(min = 10, max = 40)
@@ -32,12 +32,12 @@ public class BookDto {
 		this.title = title;
 	}
 
-	public Gender getType() {
-		return type;
+	public CategoryEntity getCategory() {
+		return category;
 	}
 
-	public void setType(Gender type) {
-		this.type = type;
+	public void setCategory(CategoryEntity category) {
+		this.category = category;
 	}
 
 	public String getAuthor() {

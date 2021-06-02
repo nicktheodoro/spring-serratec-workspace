@@ -45,7 +45,7 @@ public class BookService {
 		BookEntity book = mapper.toEntity(this.getById(id));
 		book.setAuthor(bookUpdate.getAuthor());
 		book.setTitle(bookUpdate.getTitle());
-		book.setType(bookUpdate.getType());
+		book.setCategory(bookUpdate.getCategory());
 
 		return mapper.toDto(repository.save(book));
 	}
