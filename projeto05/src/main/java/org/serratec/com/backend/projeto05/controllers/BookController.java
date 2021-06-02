@@ -2,9 +2,10 @@ package org.serratec.com.backend.projeto05.controllers;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.serratec.com.backend.projeto05.exceptions.BadRequestException;
 import org.serratec.com.backend.projeto05.exceptions.EntityNotFound;
-import org.serratec.com.backend.projeto05.models.BookEntity;
 import org.serratec.com.backend.projeto05.modelsDto.BookDto;
 import org.serratec.com.backend.projeto05.services.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,22 +28,22 @@ public class BookController {
 	BookService service;
 	
 	@GetMapping
-	public ResponseEntity<List<BookEntity>> getAll() {
-		return new ResponseEntity<List<BookEntity>>(service.getAll(), HttpStatus.OK);
+	public ResponseEntity<List<BookDto>> getAll() {
+		return new ResponseEntity<List<BookDto>>(service.getAll(), HttpStatus.OK);
 	}
 	
 	@GetMapping("/ordened/{type}")
-	ResponseEntity<List<BookEntity>> getByAuthorOrdered(@PathVariable String type) {
-		return new ResponseEntity<List<BookEntity>>(service.findByOrderByTypeAsc(type), HttpStatus.OK);
+	ResponseEntity<List<BookDto>> getByAuthorOrdered(@PathVariable String type) {
+		return new ResponseEntity<List<BookDto>>(service.getOrdenedBy(type), HttpStatus.OK);
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<BookEntity> getById(@PathVariable Long id) throws EntityNotFound {
-		return new ResponseEntity<BookEntity>(service.getById(id), HttpStatus.OK);
+	public ResponseEntity<BookDto> getById(@PathVariable Long id) throws EntityNotFound {
+		return new ResponseEntity<BookDto>(service.getById(id), HttpStatus.OK);
 	}
 	
 	@PostMapping
-	public ResponseEntity<BookDto> create(@RequestBody BookDto book) throws BadRequestException {
+	public ResponseEntity<BookDto> create(@Valid @RequestBody BookDto book) throws BadRequestException {
 		return new ResponseEntity<BookDto>(service.create(book), HttpStatus.CREATED);
 	}
 	

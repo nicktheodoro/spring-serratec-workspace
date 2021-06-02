@@ -1,8 +1,8 @@
 package org.serratec.com.backend.projeto05.services;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
-import org.serratec.com.backend.projeto05.exceptions.BadRequestException;
 import org.serratec.com.backend.projeto05.exceptions.EntityNotFound;
 import org.serratec.com.backend.projeto05.mapper.BookMapper;
 import org.serratec.com.backend.projeto05.models.BookEntity;
@@ -21,28 +21,28 @@ public class BookService {
 
 	@Autowired
 	private BookMapper mapper;
-
-	public List<BookEntity> getAll() {
-		return repository.findAll();
-	}
-
-	public BookEntity getById(Long id) throws EntityNotFound {
-		return repository.findById(id).orElseThrow(() -> new EntityNotFound(id + " não encontrado."));
+	
+	public List<BookDto> getAll() {
+		return repository.findAll().stream().map(mapper::toDto)
+				.collect(Collectors.toList());
 	}
 	
-	public List<BookEntity> findByOrderByTypeAsc(@Param("type") String type) {
-		return repository.findAll(Sort.by(Sort.Direction.ASC, type));
+	public List<BookDto> getOrdenedBy(@Param("type") String type) {
+		return repository.findAll(Sort.by(Sort.Direction.ASC, type)).stream().map(mapper::toDto)
+				.collect(Collectors.toList());
 	}
 
-	public BookDto create(BookDto book) throws BadRequestException {
-		//this.validateDto(book);
-		//return mapper.toDto(repository.save(mapper.toModel(book)));
-		repository.save(mapper.toModel(book));
-		return book;
+	public BookDto getById(Long id) throws EntityNotFound {
+		return mapper.toDto(repository.findById(id).orElseThrow(() -> new EntityNotFound(id + " não encontrado.")));
+	}
+
+	public BookDto create(BookDto dto) {
+		repository.save(mapper.toEntity(dto));
+		return dto;
 	}
 
 	public BookDto update(Long id, BookDto bookUpdate) throws EntityNotFound {
-		BookEntity book = this.getById(id);
+		BookEntity book = mapper.toEntity(this.getById(id));
 		book.setAuthor(bookUpdate.getAuthor());
 		book.setTitle(bookUpdate.getTitle());
 		book.setType(bookUpdate.getType());
@@ -55,13 +55,4 @@ public class BookService {
 
 		return "Deletado com sucesso";
 	}
-
-//	private void validateDto(BookDto dto) throws BadRequestException {
-//		BookEntity book = mapper.toModel(dto);
-//		BookEntity registeredBook = repository.findByTitle(dto.getTitle());
-//
-//		if (registeredBook.equals(book)) {
-//			throw new BadRequestException("Entidade já cadastrada");
-//		}
-//	}
 }
