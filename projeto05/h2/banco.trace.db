@@ -1,0 +1,6 @@
+2021-06-01 16:23:22 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "BOOK_ENTITY" not found; SQL statement:
+select bookentity0_.id as id1_0_, bookentity0_.author as author2_0_, bookentity0_.published_date as publishe3_0_, bookentity0_.title as title4_0_, bookentity0_.type as type5_0_ from book_entity bookentity0_ [42102-200]
+2021-06-01 16:23:23 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "BOOK_ENTITY" not found; SQL statement:
+select bookentity0_.id as id1_0_, bookentity0_.author as author2_0_, bookentity0_.published_date as publishe3_0_, bookentity0_.title as title4_0_, bookentity0_.type as type5_0_ from book_entity bookentity0_ [42102-200]

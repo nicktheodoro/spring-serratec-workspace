@@ -63,22 +63,22 @@ public class API {
 
 		return "Conta deletada com sucesso";
 	}
-	
+
 	public List<OperacaoEntity> extrato(String agencia, String numero) throws ContaNotFound {
 		List<OperacaoEntity> listAll = oprRepository.findAll();
-		
+
 		ContaEntity c = this.getOne(agencia, numero);
-		
+
 		List<OperacaoEntity> list = new ArrayList<>();
-		
+
 		for (OperacaoEntity operacaoEntity : listAll) {
 			System.out.println(operacaoEntity.getIdConta());
 			if (c.getId() == operacaoEntity.getIdConta()) {
-				
+
 				list.add(operacaoEntity);
 			}
 		}
-		
+
 		return list;
 	}
 
