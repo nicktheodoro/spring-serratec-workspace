@@ -4,7 +4,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 
-import org.serratec.com.backend.projeto05.exceptions.EntityNotFound;
+import org.serratec.com.backend.projeto05.exceptions.EntityNotFoundException;
 import org.serratec.com.backend.projeto05.modelsDto.CategoryDto;
 import org.serratec.com.backend.projeto05.services.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +32,7 @@ public class CategoryController {
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<CategoryDto> getById(@PathVariable Long id) throws EntityNotFound {
+	public ResponseEntity<CategoryDto> getById(@PathVariable Long id) throws EntityNotFoundException {
 		return new ResponseEntity<CategoryDto>(service.getById(id), HttpStatus.OK);
 	}
 	
@@ -42,7 +42,7 @@ public class CategoryController {
 	}
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<CategoryDto> update(@PathVariable Long id, @RequestBody CategoryDto dto) throws EntityNotFound {
+	public ResponseEntity<CategoryDto> update(@PathVariable Long id, @RequestBody CategoryDto dto) throws EntityNotFoundException {
 		return new ResponseEntity<CategoryDto>(service.update(id, dto), HttpStatus.ACCEPTED);
 	}
 	

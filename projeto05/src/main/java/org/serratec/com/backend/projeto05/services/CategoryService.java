@@ -3,7 +3,7 @@ package org.serratec.com.backend.projeto05.services;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.serratec.com.backend.projeto05.exceptions.EntityNotFound;
+import org.serratec.com.backend.projeto05.exceptions.EntityNotFoundException;
 import org.serratec.com.backend.projeto05.mapper.CategoryMapper;
 import org.serratec.com.backend.projeto05.models.CategoryEntity;
 import org.serratec.com.backend.projeto05.modelsDto.CategoryDto;
@@ -24,8 +24,8 @@ public class CategoryService {
 		return repository.findAll().stream().map(mapper::toDto).collect(Collectors.toList());
 	}
 
-	public CategoryDto getById(Long id) throws EntityNotFound {
-		return mapper.toDto(repository.findById(id).orElseThrow(() -> new EntityNotFound(id + " não encontrado.")));
+	public CategoryDto getById(Long id) throws EntityNotFoundException {
+		return mapper.toDto(repository.findById(id).orElseThrow(() -> new EntityNotFoundException(id + " não encontrado.")));
 	}
 
 	public CategoryDto create(CategoryDto category) {
@@ -33,7 +33,7 @@ public class CategoryService {
 		return category;
 	}
 
-	public CategoryDto update(Long id, CategoryDto category) throws EntityNotFound {
+	public CategoryDto update(Long id, CategoryDto category) throws EntityNotFoundException {
 		CategoryEntity entity = mapper.toEntity(this.getById(id));
 		entity.setName(category.getName());
 		entity.setDescription(category.getDescription());

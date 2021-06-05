@@ -3,7 +3,7 @@ package org.serratec.com.backend.projeto05.services;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.serratec.com.backend.projeto05.exceptions.EntityNotFound;
+import org.serratec.com.backend.projeto05.exceptions.EntityNotFoundException;
 import org.serratec.com.backend.projeto05.mapper.BookMapper;
 import org.serratec.com.backend.projeto05.models.BookEntity;
 import org.serratec.com.backend.projeto05.modelsDto.BookDto;
@@ -32,8 +32,8 @@ public class BookService {
 				.collect(Collectors.toList());
 	}
 
-	public BookDto getById(Long id) throws EntityNotFound {
-		return mapper.toDto(repository.findById(id).orElseThrow(() -> new EntityNotFound(id + " não encontrado.")));
+	public BookDto getById(Long id) throws EntityNotFoundException {
+		return mapper.toDto(repository.findById(id).orElseThrow(() -> new EntityNotFoundException(id + " não encontrado.")));
 	}
 
 	public BookDto create(BookDto dto) {
@@ -41,7 +41,7 @@ public class BookService {
 		return dto;
 	}
 
-	public BookDto update(Long id, BookDto bookUpdate) throws EntityNotFound {
+	public BookDto update(Long id, BookDto bookUpdate) throws EntityNotFoundException {
 		BookEntity book = mapper.toEntity(this.getById(id));
 		book.setAuthor(bookUpdate.getAuthor());
 		book.setTitle(bookUpdate.getTitle());

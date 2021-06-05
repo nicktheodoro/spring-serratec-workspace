@@ -5,7 +5,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.serratec.com.backend.projeto05.exceptions.BadRequestException;
-import org.serratec.com.backend.projeto05.exceptions.EntityNotFound;
+import org.serratec.com.backend.projeto05.exceptions.EntityNotFoundException;
 import org.serratec.com.backend.projeto05.modelsDto.BookDto;
 import org.serratec.com.backend.projeto05.services.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +38,7 @@ public class BookController {
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<BookDto> getById(@PathVariable Long id) throws EntityNotFound {
+	public ResponseEntity<BookDto> getById(@PathVariable Long id) throws EntityNotFoundException {
 		return new ResponseEntity<BookDto>(service.getById(id), HttpStatus.OK);
 	}
 	
@@ -48,7 +48,7 @@ public class BookController {
 	}
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<BookDto> update(@PathVariable Long id, @RequestBody BookDto book) throws EntityNotFound {
+	public ResponseEntity<BookDto> update(@PathVariable Long id, @RequestBody BookDto book) throws EntityNotFoundException {
 		return new ResponseEntity<BookDto>(service.update(id, book), HttpStatus.OK);
 	}
 	

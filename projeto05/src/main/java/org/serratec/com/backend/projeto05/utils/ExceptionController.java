@@ -1,7 +1,7 @@
 package org.serratec.com.backend.projeto05.utils;
 
 import org.serratec.com.backend.projeto05.exceptions.BadRequestException;
-import org.serratec.com.backend.projeto05.exceptions.EntityNotFound;
+import org.serratec.com.backend.projeto05.exceptions.EntityNotFoundException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,11 +16,12 @@ public class ExceptionController {
 		HttpHeaders header = new HttpHeaders();
 		header.add("LIBRARY", "RESTAPI_V1");
 		header.add("x-error-msg", ex.getMessage());
+		
 		return header;
 	}
 	
-	@ExceptionHandler(EntityNotFound.class)
-	public ResponseEntity<String> handleEntityNotFound(EntityNotFound ex) {
+	@ExceptionHandler(EntityNotFoundException.class)
+	public ResponseEntity<String> handleEntityNotFound(EntityNotFoundException ex) {
 		return ResponseEntity.notFound().headers(this.header(ex)).build();
 	}
 	
